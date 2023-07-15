@@ -1,0 +1,208 @@
+\section{Introduction}
+\begin{frame}
+	\ftitle{What is threshold PSI}
+	Threshold PSI is able to compute the elements that appear at least $k$ times in $n$ sets
+  
+\begin{block}{Threshold PSI}
+
+    There are $n$ parties $P_1,\cdots,P_n$ where $P_1$ is the leader and
+    $k \in [1,n-1]$ denotes the threshold. \\
+
+    \textbf{Input}: For each $i \in [n]$, $P_i$ inputs a set $X_i$ of size $m$.\\
+
+    \textbf{Output}: For each $x \in X_1$, let $q_x$ = |$\{i: x \in X_i \; \text{for} \; i \in \{2,\cdots,n\} \}$|, 
+
+    Then, output $Y$ = $\{x \in X_1 : q_x \geq  k \}$ to $P_1$.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Simple approach}
+
+    We can compute the result as follow 
+
+    \begin{enumerate}
+        \item select subset $s\subseteq \{1,2,\cdots,n\}$ and $|s| \geq k$
+    
+        \item run multi-party PSI between $X_j $ and get $X^s = \{x\,| x \in X_j , j \in s \}$
+    
+        \item output $Y = \bigcap\limits_{|s|>=k,s\subseteq [n]} X^s$
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    The computation cost is at least $C_n^k+C_n^{k+1}+\cdots +C_n^n$
+    
+    
+    \vspace{0.5cm}
+
+    \color{red}{inefficient and insecure !}
+
+\end{frame}
+
+\begin{frame}{Application}
+    
+    \begin{itemize}
+        \item Identifying High-Risk Individuals in the Spread of Disease
+        \item Share ride
+        \item Anonymous Voting and Consensus
+    \end{itemize}
+
+
+\end{frame}
+
+
+\section{Circuit-based threshold PSI}
+\begin{frame}
+    \centering \textit{Efficient Linear Multiparty PSI and Extensions to Circuit/Quorum PSI}
+
+    \vspace{1cm}
+    CCS 21
+\end{frame}
+
+\begin{frame}{Preliminaries}
+
+    \textbf{Circuit-based PSI}
+    
+    \vspace{0.5cm}
+
+    The problem of circuit PSI was introduced in the
+    2 party setting and enables parties $P_1$ and $P_2$, with their private input sets $X$ and $Y$, respectively, to compute $f \, (X \cap Y)$, where $f \,$
+    is any symmetric function 
+    
+    \vspace{0.25cm}
+
+    It allows to keep the
+    intersection $X \cap Y$ secret from the parties while allowing to securely compute $f \, (X \cap Y)$ 
+
+    \vspace{0.5cm}
+
+    \textbf{Applications}: cardinality, set intersection sum and
+    threshold cardinality/intersection
+
+\end{frame}
+
+
+
+
+\section{Homomorphic-based threshold PSI}
+\begin{frame}
+    \centering \textit{Practical Multi-Party Private Set
+    Intersection Protocols}
+
+    \vspace{1cm}
+    TIFS 22
+\end{frame}
+
+\begin{frame}{Preliminaries}
+    \textbf{Bloom Filters}
+
+    \vspace{0.5cm}
+
+    A Bloom Filter, $BF = (BF[0],\cdots, BF[ j ], \cdots , BF[m-1])$ encodes a set S of length at most $n$ into $m$ bit
+    string
+
+    chosen $k$ hash function $h_i: \{0,1\}* \rightarrow [0,1,\cdots,m-1 ]$
+
+    for every $x \in S$, set $BF(h_i(x))=1$ where $i = 1,2,\cdots,k$, the other slot is \textbf{0}
+    
+    \vspace{0.5cm}
+
+    \textbf{Inverted Bloom Filter}
+
+    \vspace{0.5cm}
+
+    for $j \in 0,1,\cdots,m-1 $, set $IBF[j] = BF[j] +1 \; mod \; 2$
+    \vspace{0.5cm}
+
+    \textbf{Encrypted Bloom Filter}
+
+    \vspace{0.5cm}
+
+    for $j \in 0,1,\cdots,m-1 $,
+    $EBF [ j] = Enc_{pk}(BF [ j ])$, where pk is a public key
+of a secret key sk
+
+\end{frame}
+
+\begin{frame}{Preliminaries}
+    \textbf{Threshold Paillier PKE}
+
+    \begin{itemize}
+        \item (t,n)-threshold version of the Paillier's scheme
+        \item Additive Homomorphism
+        \item At least t shares of decryption can reconstruct the plaintext
+    \end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Preliminaries}
+    
+    \textbf{Kerschbaum et al. Secure Comparison Protocol, SCP}
+
+    \vspace{0.25cm}
+
+    Given
+only their encrypted values Enc($x_0$) and Enc($x_1$) as input.
+The output is a single encrypted bit Enc($b$) and the encryption scheme is additive homomorphic (here is Paillier PKE)
+
+    In their protocol, $\mathbb{Z}_p$
+is represented by the upper half of the range [0, p - 1] as
+negative, that is $[\lceil \frac{p}{2} \rceil, p-1] \equiv [\lfloor -\frac{p}{2} \rfloor, -1]$ 
+
+\vspace{0.5cm}
+
+$P_1$ computes $(a_1^1,a_2^1,a_3^1)$ = (Enc(1), Enc(0), Enc(c)) where
+
+
+$$\text{Enc(c)} = (Enc(x_0)Enc(x_1))^{r_1}Enc(r_2) = Enc(r_1(x_0-x_1)-r_2)$$
+
+
+
+
+
+\end{frame}
+
+\begin{frame}{Preliminaries}
+    For every party $P_i, 2 \leq i \leq t$, selects $r_2 < r_1 $ and flips a coin $b_i \in \{0, 1\}$, sends $(a_1^i,a_2^i,a_3^i)$ to $P_{i+1}$
+where 
+
+\begin{align}
+    a_1^i &= a_{1+b}^{i-1} \; Enc(0) \nonumber \\
+    a_2^i &= a_{2-b}^{i-1}\; Enc(0) \nonumber \\
+    a_3^i &= (a_3^{i-1})^{r_1}Enc(r_2)  \nonumber
+\end{align}
+
+All parties $P_i, 2 \leq i \leq t$, jointly decrypt $a_t^3$
+to decide the result. 
+
+\vspace{0.25cm}
+
+If $a_t^3 < 0$ then $a_t^1$ = Enc(1), that is [ $x_0 \leq x_1$] = 1, else $a_t^1$
+= Enc(0).
+\end{frame}
+
+
+\begin{frame}{Main method}
+
+    \textbf{Local EBFs generation}
+
+    \vspace{0.25cm} 
+
+    Each client $P_i, 1 \leq i \leq t-1$
+    \begin{enumerate}
+        \item Computes their Bloom filter of their private data set $S_i$ ,
+        where $1 \leq i \leq t-1$
+        \item Computes their encrypted Bloom filter ${EBF_i}$ by encrypting
+        each element of $BFi[j]$ using $pk$
+        \item  Forward their $EBF_i$ to the server $P_t$
+    \end{enumerate}
+
+
+\end{frame}
+
+\begin{frame}{Result}
+
+\end{frame}

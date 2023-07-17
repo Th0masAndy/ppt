@@ -64,7 +64,7 @@
     
     \begin{itemize}
         \item Identifying High-Risk Individuals in the Spread of Disease
-        \item Share ride
+        \item Credit Evaluation
         \item Anonymous Voting and Consensus
     \end{itemize}
 
@@ -315,6 +315,42 @@ If $a_t^3 < 0$ then $a_t^1$ = Enc(1), that is [ $x_0 \leq x_1$] = 1, else $a_t^1
 \begin{frame}
     \ftitle{Preliminaries}
 
+    \centering\textbf{Cuckoo Hash}
+
+    \vspace{0.5cm}
+
+    encodes a set of size $n$ into a vector of $\lambda \cdot n$
+
+
+    \vspace{0.5cm}
+    
+    \begin{flushleft}
+        \begin{itemize}
+            \item Choose $k$ hash function $h_1,h_2,\cdots,h_n$
+    
+            \item Insert the element $x$ into $\text{Table}[h_i(x)]$ if this position is available
+            
+            \item If all those positions $\text{Table}[h_i(x)]$ is not available, randomly choose a position $h_j(x)$ and eject the element $\text{Table}[h_j(x)]$ and insert x.
+            \item Repeat the process for element $\text{Table}[h_j(x)]$ 
+        \end{itemize}
+    \end{flushleft}
+
+    \vspace{0.5cm}
+
+    all positions contains at most one element for suitable parameters
+
+    \vspace{0.4cm}
+
+
+
+\end{frame}
+
+
+
+
+\begin{frame}
+    \ftitle{Preliminaries}
+
     \centering\textbf{Multiparty Functionalities}
 
     \vspace{0.5cm}
@@ -554,7 +590,7 @@ If $a_t^3 < 0$ then $a_t^1$ = Enc(1), that is [ $x_0 \leq x_1$] = 1, else $a_t^1
 \end{frame}
 
 
-\begin{frame}{Analyze}
+\begin{frame}{Analysis}
     \textbf{Communication complexity}
 
     \vspace{0.5cm}

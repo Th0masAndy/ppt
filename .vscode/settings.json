@@ -1,0 +1,176 @@
+{
+    // ======================== LaTeX 设置 BEGIN  ========================
+        // bibtex 格式
+        "latex-workshop.bibtex-format.tab": "tab",
+    
+ 
+        "latex-workshop.latex.autoBuild.run": "onSave",
+
+        "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": false,
+    
+        // 设置 latex-workshop 的 PDF　预览程序，external　指的是外部程序
+        "latex-workshop.view.pdf.viewer": "tab",
+        "latex-workshop.view.pdf.ref.viewer": "external",
+        "latex-workshop.view.pdf.external.viewer.command": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe", // 注意修改路径
+        "latex-workshop.view.pdf.external.viewer.args": [
+            "%PDF%"
+        ],
+    
+        // 配置正向、反向搜索：.tex -> .pdf
+        "latex-workshop.view.pdf.external.synctex.command": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe", // 注意修改路径
+        "latex-workshop.view.pdf.external.synctex.args": [
+            // 正向搜索
+            "-forward-search",
+            "%TEX%",
+            "%LINE%",
+            "-reuse-instance",
+            // 反向搜索
+            "-inverse-search",
+            "\"E:/Microsoft VS Code/Code.exe\" \"E:/Microsoft VS Code/resources/app/out/cli.js\" -gr %f:%l",
+            "%PDF%"
+        ],
+
+        // 这是一些独立的编译选项，可以作为工具被编译方案调用
+        "latex-workshop.latex.tools": [
+            {
+                "name":"xelatex",
+                "command":"xelatex",
+                "args":[
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+                ]
+            },
+            {
+                "name": "latexmk",
+                "command": "latexmk",
+                "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC%"
+                ]
+            },
+            
+            {
+                // Windows 原生安装 TeX Live 2020 的编译选项
+                "name": "Windows XeLaTeX",
+                "command": "xelatex",
+                "args": [
+                    "-synctex=1",
+                    "-interaction=nonstopmode",
+                    "-file-line-error",
+                    "-pdf",
+                    "%DOCFILE%"
+                ]
+            },
+            {
+                "name": "pdflatex",
+                "command": "pdflatex",
+                "args": [
+                    "-synctex=1",
+                    "-interaction=nonstopmode",
+                    "-file-line-error",
+                    "%DOCFILE%"
+                ]
+            },
+            {
+                "name": "bibtex",
+                "command": "bibtex",
+                "args": [
+                    "%DOCFILE%"
+                ]
+            }
+
+        ],
+    
+        // 这是一些编译方案，会出现在 GUI 菜单里
+        "latex-workshop.latex.recipes": [
+            {
+                "name": "xelatex",
+                "tools": [
+                    "xelatex",
+                    "xelatex"
+                ]
+            },
+            {
+                "name":"xelatex->bibtex->xelatex->xelatex",
+                "tools":[
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
+                ]
+            },
+            {
+                "name": "pdf->bib->pdf->pdf",
+                "tools": [
+                    "pdflatex",
+                    "bibtex",
+                    "pdflatex",
+                    "pdflatex" 
+                ]
+            },
+            {
+                "name": "latexmk",
+                "tools": [
+                "latexmk"
+                            ]
+            },
+
+            {
+                // 1.2 Windows 编译带有索引的论文，需要进行四次编译；-> 符号只是一种标记而已，没有程序上的意义
+                "name": "Windows xe->bib->xe->xe 复杂编译",
+                "tools": [
+                    "Windows XeLaTeX",
+                    "Windows Biber",
+                    "Windows XeLaTeX",
+                    "Windows XeLaTeX"
+                ]
+            },
+
+            {
+                "name": "pdflatex",
+                "tools": [
+                    "pdflatex"
+                ]
+            },
+            
+
+        ],
+        "latex-workshop.latex.autoClean.run": "onBuilt",
+        // 清空中间文件
+        "latex-workshop.latex.clean.fileTypes": [
+            "*.aux",
+            "*.bbl",
+            "*.blg",
+            "*.idx",
+            "*.ind",
+            "*.lof",
+            "*.lot",
+            "*.out",
+            "*.toc",
+            "*.acn",
+            "*.acr",
+            "*.alg",
+            "*.glg",
+            "*.glo",
+            "*.gls",
+            "*.ist",
+            "*.fls",
+            "*.log",
+            "*.fdb_latexmk",
+            "*.bcf",
+            "*.run.xml",
+            "*.synctex.gz"
+        ],
+        "spellright.language": [
+            "en"
+        ],
+        "spellright.documentTypes": [
+            "plaintext",
+            "latex"
+        ]
+}
